@@ -2,6 +2,8 @@ import sys
 import networkx as nx
 import random as rd
 from datetime import datetime
+import matplotlib.pyplot as plt
+import os
 
 # Output to networkdata.txt
 sys.stdout = open('networkdata.txt', 'w')
@@ -53,6 +55,26 @@ def prevent_ddos(G, ddos_nodes):
         G.nodes[node]['activity_level'] = 1
         G.nodes[node]['sendChance'] = G.nodes[node]['sendChance'] * G.nodes[node]['activity_level']
 
+def save_network(G, title="Network Topology", filename="network_topology.png"):
+    pos = nx.spring_layout(G, seed=42)
+    node_colors = []
+    
+    for node in G.nodes():
+        if G.nodes[node]['user_type'] == 'attacker' and G.nodes[node]['activity_level'] > 1:
+            node_colors.append('red')
+        elif G.nodes[node]['user_type'] == 'normal' and G.nodes[node]['activity_level'] > 1:
+            node_colors.append('orange')
+        else:
+            node_colors.append('skyblue')
+    
+    plt.figure(figsize=(10, 7))
+    nx.draw(G, pos, with_labels=True, node_color=node_colors, node_size=2000, font_size=12, font_weight="bold")
+    labels = nx.get_edge_attributes(G, 'delay')
+    nx.draw_networkx_edge_labels(G, pos, edge_labels=labels, font_size=12)
+    plt.title(title)
+    plt.savefig(filename)
+    plt.close()
+
 # Simulate network traffic
 totalPacketsSent = 0
 attack_detected = False
@@ -78,6 +100,7 @@ for step in range(1000):
         steps_to_detect_attack = step
         attack_detected_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"Congestion detected at step {step} ({attack_detected_time})! Preventing DDoS attack.")
+        save_network(G, title=f"Network Topology at Congestion (Step {step})", filename="network_topology_congestion.png")
         prevent_ddos(G, ddos_nodes)
         attack_detected = True
         # Log details of the detected attack
