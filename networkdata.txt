@@ -1,0 +1,22 @@
+Total packets sent: 3239
+Final state of the network:
+Node 1 user_type: normal activity_level: 1
+Node 2 user_type: normal activity_level: 1
+Node 3 user_type: attacker activity_level: 10
+Node 4 user_type: normal activity_level: 1
+Node 5 user_type: normal activity_level: 1
+Node 6 user_type: attacker activity_level: 10
+Node 7 user_type: normal activity_level: 1
+Node 8 user_type: normal activity_level: 1
+Node 9 user_type: normal activity_level: 1
+Node 10 user_type: normal activity_level: 1
+Node 11 user_type: normal activity_level: 1
+Node 12 user_type: attacker activity_level: 10
+Node 13 user_type: normal activity_level: 1
+Node 14 user_type: normal activity_level: 1
+Node 15 user_type: normal activity_level: 1
+Node 16 user_type: normal activity_level: 1
+Node 17 user_type: attacker activity_level: 10
+Node 18 user_type: normal activity_level: 1
+Node 19 user_type: normal activity_level: 1
+Node 20 user_type: normal activity_level: 1
