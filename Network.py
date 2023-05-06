@@ -25,7 +25,8 @@ edgeList = [[1,2], [2,3], [3,4], [4,5], [5,6], [6,19], [18,19],
             [13,14], [14,15], [15,16], [16,17], [17,18], [19,20]]
 
 for i in range(1, 21):
-    G.add_node(i, prob=.8, id=i, packet=Packet(i, [i, i], 1), sendChance=.0008, distance=0, rate_limit=10, sent_packets=0, user_type="normal", activity_level=1)
+    G.add_node(i, prob=.8, id=i, packet=Packet(i, [i, i], 1), sendChance=.0008, distance=0, rate_limit=10, 
+               sent_packets=0, user_type="normal", activity_level=1, blacklisted=False)
 
 # Add edges to the graph
 for edge in edgeList:
@@ -59,6 +60,11 @@ def prevent_ddos(G, ddos_nodes):
         G.nodes[node]['activity_level'] = 1
         G.nodes[node]['sendChance'] = G.nodes[node]['sendChance'] * G.nodes[node]['activity_level']
 
+def blacklistAttackers(G, ddos_nodes):
+    for node in ddos_nodes:
+        if G.nodes[node]['user_type'] == "attacker":
+            G.nodes[node]['blacklisted'] = True
+
 def save_network(G, title="Network Topology", filename="network_topology.png"):
     pos = nx.spring_layout(G, seed=42)
     node_colors = []
@@ -91,16 +97,19 @@ for step in range(1000):
         if rd.random() < G.nodes[node]['sendChance'] and G.nodes[node]['sent_packets'] < G.nodes[node]['rate_limit']:
             totalPacketsSent += 1
             packets_by_user_type[G.nodes[node]['user_type']] += 1
-            G.nodes[node]['sent_packets'] += 1
+            if(G.nodes[node]['blacklisted'] == False):
+                G.nodes[node]['sent_packets'] += 1
             
             # Simulate packet sending logic and update edge delays
             neighbors = list(G.neighbors(node))
             target_node = rd.choice(neighbors)
             edge = (node, target_node) if G.has_edge(node, target_node) else (target_node, node)
-            G.edges[edge]['delay'] += G.nodes[node]['activity_level']
+            if(G.nodes[node]['blacklisted'] == False):
+                G.edges[edge]['delay'] += G.nodes[node]['activity_level']
 
     # Detect congestion and prevent DDoS attack if detected
     if not attack_detected and detect_congestion(G):
+        blacklistAttackers(G, ddos_nodes)
         steps_to_detect_attack = step
         attack_detected_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"Congestion detected at step {step} ({attack_detected_time})! Preventing DDoS attack.")
