@@ -2,7 +2,7 @@ import sys
 import networkx as nx
 import random as rd
 
-#output to networkdata.txt
+# Output to networkdata.txt
 sys.stdout = open('networkdata.txt', 'w')
 
 class Packet:
