@@ -1,3 +1,7 @@
+#Authors: Grant Davis and Dan Huynhvo
+#CS 445: Internet Security Final Project
+#Network Congestion Simulation
+
 import sys
 import networkx as nx
 import random as rd
