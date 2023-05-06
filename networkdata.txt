@@ -1,22 +1,36 @@
-Total packets sent: 3239
+Congestion detected at step 1 (2023-05-06 18:16:04)! 
+Preventing DDoS attack.
+Attack details:
+ - Attacker: 5, Activity level: 1
+ - Attacker: 14, Activity level: 1
+ - Attacker: 16, Activity level: 1
+ - Attacker: 13, Activity level: 1
+Total packets sent: 3200
+Packets sent by normal users: 14
+Packets sent by attackers: 3186
+Number of nodes: 20, Number of edges: 19
+Average edge delay before DDoS mitigation: 173.21
+Average edge delay after DDoS mitigation: 173.21
+Steps to detect DDoS attack: 1
+Percentage of packets sent by attackers: 99.56%
 Final state of the network:
 Node 1 user_type: normal activity_level: 1
 Node 2 user_type: normal activity_level: 1
-Node 3 user_type: attacker activity_level: 10
+Node 3 user_type: normal activity_level: 1
 Node 4 user_type: normal activity_level: 1
-Node 5 user_type: normal activity_level: 1
-Node 6 user_type: attacker activity_level: 10
+Node 5 user_type: attacker activity_level: 1
+Node 6 user_type: normal activity_level: 1
 Node 7 user_type: normal activity_level: 1
 Node 8 user_type: normal activity_level: 1
 Node 9 user_type: normal activity_level: 1
 Node 10 user_type: normal activity_level: 1
 Node 11 user_type: normal activity_level: 1
-Node 12 user_type: attacker activity_level: 10
-Node 13 user_type: normal activity_level: 1
-Node 14 user_type: normal activity_level: 1
+Node 12 user_type: normal activity_level: 1
+Node 13 user_type: attacker activity_level: 1
+Node 14 user_type: attacker activity_level: 1
 Node 15 user_type: normal activity_level: 1
-Node 16 user_type: normal activity_level: 1
-Node 17 user_type: attacker activity_level: 10
+Node 16 user_type: attacker activity_level: 1
+Node 17 user_type: normal activity_level: 1
 Node 18 user_type: normal activity_level: 1
 Node 19 user_type: normal activity_level: 1
 Node 20 user_type: normal activity_level: 1
