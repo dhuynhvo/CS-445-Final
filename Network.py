@@ -60,11 +60,13 @@ def prevent_ddos(G, ddos_nodes):
         G.nodes[node]['activity_level'] = 1
         G.nodes[node]['sendChance'] = G.nodes[node]['sendChance'] * G.nodes[node]['activity_level']
 
+# Function to blacklist known malicious actors
 def blacklistAttackers(G, ddos_nodes):
     for node in ddos_nodes:
         if G.nodes[node]['user_type'] == "attacker":
             G.nodes[node]['blacklisted'] = True
 
+# Function to allow edges between any node neighboring and behind a malicious actor to the target router 20
 def createEdgeToTarget(G):
     for node in G.nodes:
         neighbors = list(G.neighbors(node))
