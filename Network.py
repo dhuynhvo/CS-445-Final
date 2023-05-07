@@ -34,7 +34,7 @@ for edge in edgeList:
     
 # Set the attributes for the DDoS attack nodes
 num_attackers = rd.randint(2, 5)
-ddos_nodes = rd.sample(range(1, 21), num_attackers)
+ddos_nodes = rd.sample(range(1, 20), num_attackers)
 for node in ddos_nodes:
     G.nodes[node]['sendChance'] = 0.8
     G.nodes[node]['rate_limit'] = 20
@@ -64,6 +64,13 @@ def blacklistAttackers(G, ddos_nodes):
     for node in ddos_nodes:
         if G.nodes[node]['user_type'] == "attacker":
             G.nodes[node]['blacklisted'] = True
+
+def createEdgeToTarget(G):
+    for node in G.nodes:
+        neighbors = list(G.neighbors(node))
+        for i in neighbors:
+            if G.nodes[i]['blacklisted'] == True and G.nodes[node]['id'] < G.nodes[i]['id']:
+                G.add_edge(node, 20, delay=1)
 
 def save_network(G, title="Network Topology", filename="network_topology.png"):
     pos = nx.spring_layout(G, seed=42)
@@ -110,6 +117,7 @@ for step in range(1000):
     # Detect congestion and prevent DDoS attack if detected
     if not attack_detected and detect_congestion(G):
         blacklistAttackers(G, ddos_nodes)
+        createEdgeToTarget(G)
         steps_to_detect_attack = step
         attack_detected_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"Congestion detected at step {step} ({attack_detected_time})! Preventing DDoS attack.")
