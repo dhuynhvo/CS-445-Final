@@ -71,7 +71,7 @@ def createEdgeToTarget(G):
     for node in G.nodes:
         neighbors = list(G.neighbors(node))
         for i in neighbors:
-            if G.nodes[i]['blacklisted'] == True and G.nodes[node]['id'] < G.nodes[i]['id']:
+            if G.nodes[i]['blacklisted'] == True and G.nodes[node]['id'] < G.nodes[i]['id'] and G.nodes[node]['blacklisted'] == False:
                 G.add_edge(node, 20, delay=1)
 
 def save_network(G, title="Network Topology", filename="network_topology.png"):
@@ -115,7 +115,7 @@ for step in range(1000):
             edge = (node, target_node) if G.has_edge(node, target_node) else (target_node, node)
             if(G.nodes[node]['blacklisted'] == False):
                 G.edges[edge]['delay'] += G.nodes[node]['activity_level']
-
+    
     # Detect congestion and prevent DDoS attack if detected
     if not attack_detected and detect_congestion(G):
         blacklistAttackers(G, ddos_nodes)
